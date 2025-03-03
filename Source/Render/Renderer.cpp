@@ -127,7 +127,7 @@ void Renderer::ClearColor(XMFLOAT4 color)
 
 void Renderer::Draw(uint32_t indexCount)
 {
-	mDeviceContext->Draw(indexCount, 0);
+	mDeviceContext->DrawIndexed(indexCount, 0, 0);
 }
 
 void Renderer::Present()
@@ -225,7 +225,7 @@ void Renderer::SetPipeline()
 	viewport.TopLeftY = 0;
 
 	mDeviceContext->RSSetViewports(1, &viewport);
-	mDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
 }
 
 

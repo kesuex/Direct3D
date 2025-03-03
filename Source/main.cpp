@@ -3,17 +3,55 @@
 #include <Object/Object.h>
 #include <Object/Camera.h>
 #include <vector>
-
+#include <iostream>
 
 std::vector<Vertex> vertices =
 {
-	{XMFLOAT3(-0.5f, -0.5f, 0.0f),XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) },
-	{XMFLOAT3(0.0f, 0.5f, 0.0f),  XMFLOAT4(0.0f, 0.0f, 1.0f, 0.5f) },
-	{XMFLOAT3(0.5f, -0.5f, 0.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) }
+	// передн€€ грань
+	{ { -0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f} }, // 0
+	{ { -0.5f, 0.5f, -0.5f},  {0.0f, 1.0f, 0.0f, 1.0f} }, // 1
+	{ { 0.5f, 0.5f,-0.5f},    {0.0f, 0.0f, 1.0f, 1.0f} }, // 2
+	{ { 0.5f, -0.5f, -0.5f},  {1.0f, 1.0f, 0.0f, 1.0f} }, // 3
+
+	// задн€€ грань
+	{XMFLOAT3(-0.5f, -0.5f, 0.5f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) }, // 4
+	{XMFLOAT3(-0.5f, 0.5f, 0.5f),  XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f) }, // 5
+	{XMFLOAT3(0.5f, 0.5f, 0.5f),   XMFLOAT4(1.0f, 0.0f, 1.0f, 1.0f) }, // 6
+	{XMFLOAT3(0.5f, -0.5f, 0.5f),  XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f) }  // 7
 };
 
 
-std::vector<uint32_t> indices = { 0, 1, 2 };
+
+std::vector<uint32_t> indices = 
+{ 
+	// ѕередн€€ грань
+	
+	0, 1, 3,
+	1, 2, 3,
+
+	// «адн€€ грань
+	7, 5, 4,
+	7, 6, 5,
+
+	// Ћева€ грань
+	4, 5, 1,
+	4, 1, 0,
+
+	// ѕрава€ грань
+	3, 2, 6,
+	3, 6, 7,
+
+	// ¬ерхн€€ грань
+	1, 5, 6,
+	1, 6, 2,
+
+	// Ќижн€€ грань
+	0, 3, 7,
+	0, 7, 4
+
+
+
+};
 
 
 
@@ -29,21 +67,20 @@ int main()
 
 	//RENDERER INITIALIZATION
 	Renderer* renderer = RendererManager::CreateRenderer(window);
-	Camera* camera = new Camera({ 0.0f, 0.0f, -3.0f });
+	Camera* camera = new Camera({ 0.0f, 0.0f, -3.0f }, {window->GetSize().X, window->GetSize().Y});
 
-	//TRIANLGE INITIALIZATION
+	//OBJECT INITIALIZATION
 	Object* triangle = new Object(vertices, indices);
 	objects.push_back(triangle);
 
-	Object* triangle2 = new Object(vertices, indices);
-	triangle->SetPosition({ 3.0f, 2.0f, 0.0f });
-	objects.push_back(triangle2);
+	
 	//RENDER LOOP
 	while (window->IsVisible())
 	{
 		window->Run();
 		renderer->ClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		camera->ProcessTransformation(window->GetWindowHandler());
+		camera->HandleInputs(window->GetWindowHandler());
+		camera->UpdateMatrix();
 		renderer->SetPipeline();
 		for (auto& object : objects)
 		{
@@ -51,6 +88,7 @@ int main()
 			
 			object->UpdateMatrix(camera->GetViewMatrix(), camera->GetProjectionMatrix());
 			renderer->Draw(object->GetIndexCount());
+			
 		}
 		
 		renderer->Present();
