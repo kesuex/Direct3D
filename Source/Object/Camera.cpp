@@ -1,5 +1,5 @@
 #include "Camera.h"
-/*
+
 Camera::Camera(XMFLOAT3 startposition)
 {
 	mPosition = startposition;
@@ -70,4 +70,4 @@ void Camera::ProcessTransformation(GLFWwindow* window)
         mPosition = { mPosition.x, mPosition.y - cameraSpeed, mPosition.z };
     }
 }
-*/
+
