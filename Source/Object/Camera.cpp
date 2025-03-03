@@ -70,4 +70,5 @@ void Camera::ProcessTransformation(GLFWwindow* window)
         mPosition = { mPosition.x, mPosition.y - cameraSpeed, mPosition.z };
     }
 }
+
 */

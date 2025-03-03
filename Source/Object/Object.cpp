@@ -21,7 +21,7 @@ Object::Object(std::vector<Vertex> pArrayVertexData, std::vector<uint32_t>  inde
 
 	D3D11_BUFFER_DESC vertexBufferDesc = {};
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexBufferDesc.ByteWidth = sizeof(Vertex) * pArrayVertexData.size();
+	vertexBufferDesc.ByteWidth = sizeof(Vertex) * 3;
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexBufferDesc.CPUAccessFlags = 0;
 	vertexBufferDesc.MiscFlags = 0;
@@ -74,7 +74,7 @@ void Object::SetProps()
 
 void Object::UpdateMatrix(XMMATRIX view, XMMATRIX projection)
 {
-	//mWorldData.Rotation.z += 0.1f;
+	mWorldData.Rotation.z += 0.1f;
 	mTransformData.worldMatrix = XMMatrixTranspose(XMMatrixScaling(mWorldData.Scale.x, mWorldData.Scale.y, mWorldData.Scale.z) *
 		XMMatrixRotationRollPitchYaw(mWorldData.Rotation.x, mWorldData.Rotation.y, mWorldData.Rotation.z) *
 		XMMatrixTranslation(mWorldData.Position.x, mWorldData.Position.y, mWorldData.Position.z));
