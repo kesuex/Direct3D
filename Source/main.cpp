@@ -18,37 +18,37 @@ std::vector<uint32_t> indices = { 0, 1, 2 };
 
 
 
-int main() 
+int main()
 {
 	//OBJECTS ARRAY
 	std::vector<Object*> objects;
 
 	//WINDOW INITIALIZATION
-	Window* window = new Window({1280,720}, "Window");
+	Window* window = new Window({ 1280,720 }, "Window");
 	window->Initialize();
 
 	//RENDERER INITIALIZATION
 	Renderer* renderer = RendererManager::CreateRenderer(window);
-	Camera* camera = new Camera({ 0.0f, 0.0f, -3.0f });
+	//Camera* camera = new Camera({ 0.0f, 0.0f, -3.0f }, window->GetSize().X, window->GetSize().Y});
+	Camera* camera = new Camera({ 0.0f, 0.0f, -3.0f }, { window->GetSize().X, window->GetSize().Y });
 
-	//TRIANLGE INITIALIZATION
-	Object* triangle = new Object(vertices, indices);
-	objects.push_back(triangle);
+	//OBJECT INITIALIZATION
+	Object* cube = new Object(vertices, indices);
+	objects.push_back(cube);
 
-	Object* triangle2 = new Object(vertices, indices);
-	triangle->SetPosition({ 3.0f, 2.0f, 0.0f });
-	objects.push_back(triangle2);
+	
+
+
 	//RENDER LOOP
 	while (window->IsVisible())
 	{
 		window->Run();
 		renderer->ClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		camera->ProcessTransformation(window->GetWindowHandler());
+		camera->HandleInputs(window->GetWindowHandler());
 		renderer->SetPipeline();
 		for (auto& object : objects)
 		{
-			object->SetProps();
-			
+			object->SetProps();			
 			object->UpdateMatrix(camera->GetViewMatrix(), camera->GetProjectionMatrix());
 			renderer->Draw(object->GetIndexCount());
 		}
