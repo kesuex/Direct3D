@@ -127,7 +127,7 @@ void Renderer::ClearColor(XMFLOAT4 color)
 
 void Renderer::Draw(uint32_t indexCount)
 {
-	mDeviceContext->Draw(indexCount, 0);
+	mDeviceContext->DrawIndexed(indexCount, 0,0);
 }
 
 void Renderer::Present()
