@@ -20,7 +20,7 @@ public:
 	Window(WindowSize size, const std::string& title);
 	~Window();
 
-	void Initizlize();
+	void Initialize();
 	void Run();
 
 	bool IsVisible() const { return !glfwWindowShouldClose(mWindow); }

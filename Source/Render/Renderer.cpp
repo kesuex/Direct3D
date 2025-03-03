@@ -225,6 +225,7 @@ void Renderer::SetPipeline()
 	viewport.TopLeftY = 0;
 
 	mDeviceContext->RSSetViewports(1, &viewport);
+	mDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 

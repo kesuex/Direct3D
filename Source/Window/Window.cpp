@@ -12,7 +12,7 @@ Window::~Window()
 	glfwTerminate();
 }
 
-void Window::Initizlize()
+void Window::Initialize()
 {
 	if (!glfwInit())
 	{
